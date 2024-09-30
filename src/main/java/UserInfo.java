@@ -7,13 +7,16 @@
  *
  * @author RC_Student_lab
  */
+/**
+ * This class stores basic user information like username, password, first name, and last name.
+ */
 public class UserInfo {
     private String username;
     private String password;
     private String firstName;
     private String lastName;
 
-    // Constructor
+    // Constructor to initialize the user's information
     public UserInfo(String username, String password, String firstName, String lastName) {
         this.username = username;
         this.password = password;
@@ -21,54 +24,41 @@ public class UserInfo {
         this.lastName = lastName;
     }
 
-    // Getters and Setters for each field
-    public String getUsername() {
-        return username;
+    // Method to check if username is valid
+    public boolean checkUserName() {
+        return username.contains("_") && username.length() <= 5;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    // Method to check if password meets complexity standards
+    public boolean checkPasswordComplexity() {
+        return password.length() >= 8 && 
+               password.matches(".*[A-Z].*") &&    // Check for at least one uppercase letter
+               password.matches(".*[0-9].*") &&    // Check for at least one digit
+               password.matches(".*[!@#$%^&*].*");  // Check for at least one special character
     }
 
-    public String getPassword() {
-        return password;
+    // Method to register a new user and return appropriate message
+    public String registerUser() {
+        if (!checkUserName()) {
+            return "Username is not correctly formatted, please ensure that your username contains an underscore and is no more than 5 characters in length.";
+        } else if (!checkPasswordComplexity()) {
+            return "Password is not correctly formatted, please ensure that the password contains at least 8 characters, a capital letter, a number, and a special character.";
+        } else {
+            return "User successfully registered!";
+        }
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    // Method to validate login
+    public boolean loginUser(String loginUsername, String loginPassword) {
+        return this.username.equals(loginUsername) && this.password.equals(loginPassword);
     }
 
+    // Getters for firstName and lastName to display after login
     public String getFirstName() {
         return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
     }
 
     public String getLastName() {
         return lastName;
     }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    // Validation method for username (contains an underscore and is no more than 5 characters long)
-    public static boolean isValidUsername(String username) {
-        return username.contains("_") && username.length() <= 5;
-    }
-
-    // Validation method for password (length, capital letter, number, special character)
-    public static boolean isValidPassword(String password) {
-        if (password.length() < 8) {
-            return false;
-        }
-        // Check for at least one capital letter, one number, and one special character
-        if (!password.matches(".*[A-Z].*") || !password.matches(".*\\d.*") || !password.matches(".*[!@#$%^&*()_+].*")) {
-            return false;
-        }
-        return true;
-    }
 }
-
