@@ -11,7 +11,7 @@ import java.util.Scanner;
  *
  * @author RC_Student_lab
  */
-public class UserAuthenticationSystem {
+public class UserAuthenticationSysteminitial {
     // Store registered users
     private static HashMap<String, String> users = new HashMap<>();
     
