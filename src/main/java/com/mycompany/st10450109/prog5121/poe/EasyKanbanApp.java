@@ -1,10 +1,10 @@
+package com.mycompany.st10450109.prog5121.poe;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author RC_Student_lab
  */
-
 public class EasyKanbanApp {
     public static void main(String[] args) {
         UserManager userManager = new UserManager();

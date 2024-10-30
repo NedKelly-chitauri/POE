@@ -1,18 +1,13 @@
+package com.mycompany.st10450109.prog5121.poe;
+
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.mycompany.st10450109.prog5121.poe;
-
 /**
  *
+ * 
  * @author RC_Student_lab
  */
-
-
 public class TaskManager {
     private ArrayList<Task> tasks = new ArrayList<>();
     private int totalHours = 0;
