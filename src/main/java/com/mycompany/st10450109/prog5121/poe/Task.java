@@ -7,27 +7,46 @@ package com.mycompany.st10450109.prog5121.poe;
  */
 
 public class Task {
-    private int taskNumber;
     private String taskName;
-    private String description;
-    private String developer;
-    private int duration;
-    private String status;
-    private String taskID;
+    private String taskDescription;
+    private String developerName;
+    private int taskDuration;
 
-    public Task(int taskNumber, String taskName, String description, String developer, int duration, String status, String taskID) {
-        this.taskNumber = taskNumber;
+    // Constructor to initialize a task
+    public Task(String taskName, String taskDescription, String developerName, int taskDuration) {
         this.taskName = taskName;
-        this.description = description;
-        this.developer = developer;
-        this.duration = duration;
-        this.status = status;
-        this.taskID = taskID;
+        this.taskDescription = taskDescription;
+        this.developerName = developerName;
+        this.taskDuration = taskDuration;
     }
 
-    public String printTaskDetails() {
-        return "Status: " + status + "\nDeveloper: " + developer + "\nTask Number: " + taskNumber +
-               "\nTask Name: " + taskName + "\nDescription: " + description + "\nTask ID: " + taskID +
-               "\nDuration: " + duration + " hours";
+    // Method to validate the task description length
+    public boolean isDescriptionValid() {
+        return taskDescription.length() <= 50;
+    }
+
+    // Method to return a formatted task summary
+    public String getTaskSummary() {
+        return "Task Name: " + taskName + "\n" +
+               "Description: " + taskDescription + "\n" +
+               "Developer: " + developerName + "\n" +
+               "Duration: " + taskDuration + " hours";
+    }
+
+    // Getters for the task attributes (optional, for further expansion if needed)
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public String getTaskDescription() {
+        return taskDescription;
+    }
+
+    public String getDeveloperName() {
+        return developerName;
+    }
+
+    public int getTaskDuration() {
+        return taskDuration;
     }
 }

@@ -1,3 +1,5 @@
+package com.mycompany.st10450109.prog5121.poe;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,36 +20,28 @@ import java.util.regex.Pattern;
  * It ensures that usernames and passwords meet specific formatting criteria.
  */
 public class Login {
-    private String username;
-    private String password;
-    private String firstName;
-    private String lastName;
+    private UserInfo user;
 
-    // Constructor to initialize login details
-    public Login(String username, String password, String firstName, String lastName) {
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    // Constructor that accepts a UserInfo object
+    public Login(UserInfo user) {
+        this.user = user;
     }
 
-    // Method to check if the username contains an underscore and is no more than 5 characters
+    // Method to check if the username is valid
     public boolean checkUserName() {
-        // Return true if the username matches the required pattern
+        String username = user.getUsername();
         return username.contains("_") && username.length() <= 5;
     }
 
     // Method to check password complexity
     public boolean checkPasswordComplexity() {
-        // Ensure the password is at least 8 characters long and meets all complexity requirements
+        String password = user.getPassword();
         if (password.length() < 8) return false;
 
-        // Define regex patterns for different complexity criteria
         Pattern upperCasePattern = Pattern.compile("[A-Z]");
         Pattern digitPattern = Pattern.compile("[0-9]");
         Pattern specialCharPattern = Pattern.compile("[^a-zA-Z0-9]");
 
-        // Check for each complexity criteria
         Matcher hasUpperCase = upperCasePattern.matcher(password);
         Matcher hasDigit = digitPattern.matcher(password);
         Matcher hasSpecialChar = specialCharPattern.matcher(password);
@@ -55,26 +49,26 @@ public class Login {
         return hasUpperCase.find() && hasDigit.find() && hasSpecialChar.find();
     }
 
-    // Method to register a user, returns registration status message
+    // Method to register the user, providing appropriate feedback
     public String registerUser() {
         if (!checkUserName()) {
-            return "Error: Username is not correctly formatted, please ensure that your username contains an underscore and is no more than 5 characters in length.";
+            return "Error: Username is not correctly formatted. Ensure it contains an underscore and is no more than 5 characters.";
         }
         if (!checkPasswordComplexity()) {
-            return "Error: Password is not correctly formatted, please ensure that the password contains at least 8 characters, a capital letter, a number, and a special character.";
+            return "Error: Password must contain at least 8 characters, a capital letter, a number, and a special character.";
         }
         return "User successfully registered!";
     }
 
-    // Method to login the user by verifying username and password
+    // Method to login the user
     public boolean loginUser(String enteredUsername, String enteredPassword) {
-        return username.equals(enteredUsername) && password.equals(enteredPassword);
+        return user.getUsername().equals(enteredUsername) && user.getPassword().equals(enteredPassword);
     }
 
-    // Method to return login status message based on successful or failed login
+    // Method to return a login status message based on successful or failed login
     public String returnLoginStatus(boolean loginSuccess) {
         if (loginSuccess) {
-            return "Welcome back " + firstName + ", " + lastName + "! It’s great to see you again.";
+            return "Welcome back " + user.getFirstName() + " " + user.getLastName() + "! It’s great to see you again.";
         } else {
             return "Username or password incorrect. Please try again!";
         }
