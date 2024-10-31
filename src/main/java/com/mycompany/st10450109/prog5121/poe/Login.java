@@ -13,22 +13,18 @@ import java.util.regex.Pattern;
  * @author RC_Student_lab
  */
 
-/**
- * Handles user registration and login functionalities.
- * Ensures that usernames and passwords meet specific formatting criteria.
- */
 public class Login {
     private String username;
     private String password;
     private String firstName;
     private String lastName;
 
-    // Method to check if the username contains an underscore and is no more than 5 characters
+    // Check if the username contains an underscore and is no more than 5 characters
     public boolean checkUserName(String username) {
         return username.contains("_") && username.length() <= 5;
     }
 
-    // Method to check password complexity
+    // Check password complexity
     public boolean checkPasswordComplexity(String password) {
         if (password.length() < 8) return false;
 
@@ -43,13 +39,13 @@ public class Login {
         return hasUpperCase.find() && hasDigit.find() && hasSpecialChar.find();
     }
 
-    // Method to register a user, returns registration status message
+    // Register a user, returns registration status message
     public String registerUser(String username, String password, String firstName, String lastName) {
         if (!checkUserName(username)) {
-            return "Error: Username is not correctly formatted, please ensure that your username contains an underscore and is no more than 5 characters in length.";
+            return "Error: Username is not correctly formatted. Ensure it contains an underscore and is no more than 5 characters.";
         }
         if (!checkPasswordComplexity(password)) {
-            return "Error: Password is not correctly formatted, please ensure that the password contains at least 8 characters, a capital letter, a number, and a special character.";
+            return "Error: Password is not correctly formatted. Ensure it contains at least 8 characters, a capital letter, a number, and a special character.";
         }
         
         this.username = username;
@@ -60,12 +56,12 @@ public class Login {
         return "User successfully registered!";
     }
 
-    // Method to login the user by verifying username and password
+    // Login the user by verifying username and password
     public boolean loginUser(String enteredUsername, String enteredPassword) {
         return this.username.equals(enteredUsername) && this.password.equals(enteredPassword);
     }
 
-    // Method to return login status message based on successful or failed login
+    // Return login status message based on successful or failed login
     public String returnLoginStatus(boolean loginSuccess) {
         if (loginSuccess) {
             return "Welcome back " + firstName + " " + lastName + "! It’s great to see you again.";
