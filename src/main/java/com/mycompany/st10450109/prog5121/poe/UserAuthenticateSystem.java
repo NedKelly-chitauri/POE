@@ -1,9 +1,8 @@
 package com.mycompany.st10450109.prog5121.poe;
 
-import javax.swing.*;
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -19,8 +18,7 @@ import java.util.Scanner;
  * Manages user registration and login functionalities.
  */
 public class UserAuthenticateSystem {
-    private static List<UserInfo> userList = new ArrayList<>();
-    private static List<Task> taskList = new ArrayList<>();  // List to store tasks
+    private static List<Login> userList = new ArrayList<>();
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -36,7 +34,7 @@ public class UserAuthenticateSystem {
 
             System.out.print("Your choice: ");
             int choice = scanner.nextInt();
-            scanner.nextLine();  // Consume newline
+            scanner.nextLine();  // Consume the newline character
 
             switch (choice) {
                 case 1:
@@ -53,9 +51,9 @@ public class UserAuthenticateSystem {
                     System.out.print("Enter your last name: ");
                     String lastName = scanner.nextLine();
 
-                    UserInfo newUser = new UserInfo(username, password, firstName, lastName);
-                    Login newLogin = new Login(newUser);
-                    String registrationMessage = newLogin.registerUser();
+                    Login newUser = new Login();
+                    String registrationMessage = newUser.registerUser(username, password, firstName, lastName);
+
                     System.out.println(registrationMessage);
 
                     if (registrationMessage.equals("User successfully registered!")) {
@@ -73,20 +71,16 @@ public class UserAuthenticateSystem {
 
                     boolean isLoggedIn = false;
 
-                    for (UserInfo user : userList) {
-                        Login login = new Login(user);
-                        isLoggedIn = login.loginUser(loginUsername, loginPassword);
-                        System.out.println(login.returnLoginStatus(isLoggedIn));
-
-                        if (isLoggedIn) {
-                            // Open task menu in JOptionPane after successful login
-                            manageTasks(user);
+                    for (Login user : userList) {
+                        if (user.loginUser(loginUsername, loginPassword)) {
+                            System.out.println(user.returnLoginStatus(true));
+                            isLoggedIn = true;
                             break;
                         }
                     }
 
                     if (!isLoggedIn) {
-                        System.out.println("Username or password incorrect. Please try again.");
+                        System.out.println("Username or password incorrect, please try again.");
                     }
                     break;
 
@@ -101,69 +95,5 @@ public class UserAuthenticateSystem {
         }
 
         scanner.close();
-    }
-
-    // Method to manage tasks using JOptionPane
-    private static void manageTasks(UserInfo user) {
-        boolean isManagingTasks = true;
-
-        while (isManagingTasks) {
-            String menu = "Welcome to EasyKanban\n\nSelect an option:\n1) Add Task\n2) Show Report\n3) Quit";
-            String input = JOptionPane.showInputDialog(menu);
-
-            if (input == null) {
-                isManagingTasks = false;  // Handle cancel button
-                break;
-            }
-
-            int taskChoice = Integer.parseInt(input);
-
-            switch (taskChoice) {
-                case 1:
-                    addTask();
-                    break;
-                case 2:
-                    showReport();
-                    break;
-                case 3:
-                    isManagingTasks = false;
-                    JOptionPane.showMessageDialog(null, "Exiting EasyKanban.");
-                    break;
-                default:
-                    JOptionPane.showMessageDialog(null, "Invalid option. Please try again.");
-            }
-        }
-    }
-
-    // Method to prompt user for task details and add a task
-    private static void addTask () {
-        String taskName = JOptionPane.showInputDialog("Enter Task Name:");
-        String taskDescription = JOptionPane.showInputDialog("Enter Task Description (max 50 characters):");
-
-        String developerName = JOptionPane.showInputDialog("Enter Developer's Full Name:");
-        String taskDurationStr = JOptionPane.showInputDialog("Enter Task Duration in hours:");
-        int taskDuration = Integer.parseInt(taskDurationStr);
-
-        Task newTask = new Task(taskName, taskDescription, developerName, taskDuration);
-
-        if (newTask.isDescriptionValid()) {
-            taskList.add(newTask);
-            JOptionPane.showMessageDialog(null, "Task successfully captured.\n" + newTask.getTaskSummary());
-        } else {
-            JOptionPane.showMessageDialog(null, "Task description is too long. Please enter a description of 50 characters or less.");
-        }
-    }
-
-    // Method to show a report of all tasks
-    private static void showReport() {
-        if (taskList.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No tasks available.");
-        } else {
-            StringBuilder report = new StringBuilder("Task Report:\n\n");
-            for (Task task : taskList) {
-                report.append(task.getTaskSummary()).append("\n\n");
-            }
-            JOptionPane.showMessageDialog(null, report.toString());
-        }
     }
 }
